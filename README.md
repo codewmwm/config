@@ -1,10 +1,14 @@
 # config
 config
+
 mixup 0.2 0.5 0.8
+
 multiscalflip [(800, 600),(1000. 750)]
+
 anchor 2    scales=[2],
             ratios=[0.5, 1.0, 2.0, 3.0, 4.0],## weight/height
             strides=[4, 8, 12, 16, 20]),
+
 anchor 4    scales=[4],
             ratios=[0.5, 1.0, 2.0, 3.0, 4.0],## weight/height
             strides=[2, 4, 6, 8, 10]),
