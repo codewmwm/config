@@ -260,7 +260,7 @@ checkpoint_config = dict(interval=1)###  interval
 log_config = dict(
     interval=1,###  interval
     hooks=[
-        #dict(type='TextLoggerHook'),
+        dict(type='TextLoggerHook'),
         dict(type='TensorboardLoggerHook')## use " hooks=[dict(type='TensorboardLoggerHook')] " can use 'Tensorboard' to log
     ])
 
