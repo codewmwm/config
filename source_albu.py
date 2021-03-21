@@ -57,8 +57,7 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
-                               loss_weight=1.0)),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -74,8 +73,7 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
-                               loss_weight=1.0)),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -187,8 +185,8 @@ img_norm_cfg = dict(
 
 ###albu模块,可以加入新的不同的albu函数
 albu_train_transforms = [
-    dict(type='RandomRotate90', always_apply=False, p=0.5)
-	dict(
+    dict(type='RandomRotate90', always_apply=False, p=0.5),
+    dict(
         type='ShiftScaleRotate',
         shift_limit=0.0625,
         scale_limit=0.0,
@@ -257,7 +255,7 @@ train_pipeline = [
         update_pad_shape=False,
         skip_img_without_anno=True),
     dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']))
 ]
 
 test_pipeline = [
