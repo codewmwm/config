@@ -191,13 +191,6 @@ img_norm_cfg = dict(
 ###albu模块,可以加入新的不同的albu函数
 albu_train_transforms = [
     dict(
-        type='ShiftScaleRotate',
-        shift_limit=0.0625,
-        scale_limit=0.0,
-        rotate_limit=0,
-        interpolation=1,
-        p=0.5),
-    dict(
         type='RandomBrightnessContrast',
         brightness_limit=[0.1, 0.3],
         contrast_limit=[0.1, 0.3],
