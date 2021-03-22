@@ -251,7 +251,8 @@ train_pipeline = [
             filter_lost_elements=True),
         keymap={
             'img': 'image',
-            'gt_bboxes': 'bboxes'
+            'gt_bboxes': 'bboxes',
+            'gt_labels': 'gt_labels'
         },
         update_pad_shape=False,
         skip_img_without_anno=True),
