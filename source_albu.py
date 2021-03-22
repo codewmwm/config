@@ -57,7 +57,8 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -73,7 +74,8 @@ model = dict(
                     type='CrossEntropyLoss',
                     use_sigmoid=False,
                     loss_weight=1.0),
-                loss_bbox=dict(type='SmoothL1Loss', beta=1.0, loss_weight=1.0)),
+                loss_bbox=dict(type='SmoothL1Loss', beta=1.0,
+                               loss_weight=1.0)),
             dict(
                 type='Shared2FCBBoxHead',
                 in_channels=256,
@@ -182,9 +184,8 @@ dataset_type = 'CocoDataset'
 data_root = 'data/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
-
-###albu模块,可以加入新的不同的albu函数
 albu_train_transforms = [
+    dict(type='RandomRotate90', always_apply=False, p=0.5),
     dict(
         type='RandomBrightnessContrast',
         brightness_limit=[0.1, 0.3],
@@ -217,14 +218,12 @@ albu_train_transforms = [
         ],
         p=0.1),
 ]
-
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
 
     dict(type='Resize', img_scale=(512, 512), keep_ratio=True),###  img_scale
-    ##mixup
-    #dict(type='MixUp',p=0.5, lambd=0.5),
+
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(
         type='Normalize',
@@ -232,20 +231,19 @@ train_pipeline = [
         std=[58.395, 57.12, 57.375],
         to_rgb=True),
     dict(type='Pad', size_divisor=32),
-    ##albu
     dict(
         type='Albu',
         transforms=albu_train_transforms,
         bbox_params=dict(
             type='BboxParams',
-            format='coco',
+            format='pascal_voc',
             label_fields=['gt_labels'],
             min_visibility=0.0,
             filter_lost_elements=True),
         keymap={
             'img': 'image',
-            'gt_bboxes': 'bboxes',
-            'gt_labels': 'gt_labels'
+            'gt_masks': 'masks',
+            'gt_bboxes': 'bboxes'
         },
         update_pad_shape=False,
         skip_img_without_anno=True),
@@ -253,11 +251,12 @@ train_pipeline = [
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
 
+
 test_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(
         type='MultiScaleFlipAug',
-        img_scale=[(512, 512), (800, 800)],###  img_scale
+        img_scale=(512, 512),###  img_scale
         flip=False,
         transforms=[
             dict(type='Resize', keep_ratio=True),
@@ -296,7 +295,7 @@ data = dict(
         )
 )
 evaluation = dict(interval=1, metric='bbox')###  interval
-optimizer = dict(type='SGD', lr=0.00125*16, momentum=0.9, weight_decay=0.0001)###  lr
+optimizer = dict(type='SGD', lr=0.04, momentum=0.9, weight_decay=0.0001)###  lr
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(
     policy='step',

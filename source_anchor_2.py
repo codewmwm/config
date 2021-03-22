@@ -21,12 +21,9 @@ model = dict(
         feat_channels=256,
         anchor_generator=dict( ##############anchor  scales * strides = [32,...,512](area of feature map), so change to ' 2 * [4, 8, 16, 0, 0] ' 
             type='AnchorGenerator',
-            #scales=[8],
-            #ratios=[0.5, 1.0, 2.0],## weight/height
-            #strides=[4, 8, 16, 32, 64]),
             scales=[2],
-            ratios=[0.5, 1.0, 2.0, 3.0, 4.0],## weight/height
-            strides=[4, 8, 12, 16, 20]),
+            ratios=[0.5, 1.0, 2.0],## weight/height
+            strides=[4, 8, 16, 32, 64]),
         bbox_coder=dict(
             type='DeltaXYWHBBoxCoder',
             target_means=[0.0, 0.0, 0.0, 0.0],
@@ -188,7 +185,6 @@ data_root = 'data/coco/'
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 
-
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
@@ -251,7 +247,7 @@ data = dict(
         )
 )
 evaluation = dict(interval=1, metric='bbox')###  interval
-optimizer = dict(type='SGD', lr=0.00125*16, momentum=0.9, weight_decay=0.0001)###  lr
+optimizer = dict(type='SGD', lr=0.04, momentum=0.9, weight_decay=0.0001)###  lr
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(
     policy='step',

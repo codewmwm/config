@@ -189,6 +189,7 @@ img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 ###albu模块,可以加入新的不同的albu函数
 albu_train_transforms = [
+    dict(type='RandomRotate90', always_apply=False, p=0.5),
     dict(
         type='RandomBrightnessContrast',
         brightness_limit=[0.1, 0.3],
@@ -226,7 +227,7 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
 
-    dict(type='Resize', img_scale=[(800, 600), (1000, 750)], keep_ratio=True),###  img_scale
+    dict(type='Resize', img_scale=[(800, 600), (1000, 750)],multiscale_mode='value',  keep_ratio=True),###  img_scale
     dict(type='MixUp',p=0.5, lambd=0.2),
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(
@@ -264,7 +265,7 @@ test_pipeline = [
         img_scale=[(800, 600), (1000, 750)],###  img_scale
         flip=False,
         transforms=[
-            dict(type='Resize', keep_ratio=True),
+            dict(type='Resize', multiscale_mode='value', keep_ratio=True),
             dict(type='RandomFlip'),
             dict(
                 type='Normalize',
@@ -300,7 +301,7 @@ data = dict(
         )
 )
 evaluation = dict(interval=1, metric='bbox')###  interval
-optimizer = dict(type='SGD', lr=0.00125*16, momentum=0.9, weight_decay=0.0001)###  lr
+optimizer = dict(type='SGD', lr=0.04, momentum=0.9, weight_decay=0.0001)###  lr
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(
     policy='step',

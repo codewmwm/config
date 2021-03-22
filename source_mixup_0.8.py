@@ -188,10 +188,8 @@ img_norm_cfg = dict(
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
-
-    dict(type='Resize', img_scale=(512, 512), keep_ratio=True),###  img_scale
-    ##mixup
     dict(type='MixUp',p=0.5, lambd=0.8),
+    dict(type='Resize', img_scale=[(800, 600), (1000, 750)],multiscale_mode='value',  keep_ratio=True),###  img_scale
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(
         type='Normalize',
@@ -248,7 +246,7 @@ data = dict(
         )
 )
 evaluation = dict(interval=1, metric='bbox')###  interval
-optimizer = dict(type='SGD', lr=0.00125*16, momentum=0.9, weight_decay=0.0001)###  lr
+optimizer = dict(type='SGD', lr=0.04, momentum=0.9, weight_decay=0.0001)###  lr
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(
     policy='step',
