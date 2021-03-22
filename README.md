@@ -14,14 +14,6 @@ anchor 4    scales=[4],
             strides=[2, 4, 6, 8, 10]),
 
 albu_train_transforms = [
-    dict(type='RandomRotate90', always_apply=False, p=0.5)
-	dict(
-        type='ShiftScaleRotate',
-        shift_limit=0.0625,
-        scale_limit=0.0,
-        rotate_limit=0,
-        interpolation=1,
-        p=0.5),
     dict(
         type='RandomBrightnessContrast',
         brightness_limit=[0.1, 0.3],
@@ -52,3 +44,10 @@ albu_train_transforms = [
         ],
         p=0.1),
 ]
+
+******************************************************************
+Results
+source map50: 0.3630
+<图片>
+
+source_albu map50:
