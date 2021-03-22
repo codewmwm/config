@@ -189,7 +189,8 @@ train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
     dict(type='MixUp',p=0.5, lambd=0.8),
-    dict(type='Resize', img_scale=[(800, 600), (1000, 750)],multiscale_mode='value',  keep_ratio=True),###  img_scale
+    dict(type='Resize', img_scale=(512, 512), keep_ratio=True),###  img_scale
+
     dict(type='RandomFlip', flip_ratio=0.5),
     dict(
         type='Normalize',
