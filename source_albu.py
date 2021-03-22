@@ -185,7 +185,6 @@ img_norm_cfg = dict(
 
 ###albu模块,可以加入新的不同的albu函数
 albu_train_transforms = [
-    dict(type='RandomRotate90', always_apply=False, p=0.5),
     dict(
         type='ShiftScaleRotate',
         shift_limit=0.0625,
@@ -215,6 +214,8 @@ albu_train_transforms = [
                 p=1.0)
         ],
         p=0.1),
+    dict(type='JpegCompression', quality_lower=85, quality_upper=95, p=0.2),
+    dict(type='ChannelShuffle', p=0.1),
     dict(
         type='OneOf',
         transforms=[
@@ -255,7 +256,7 @@ train_pipeline = [
         update_pad_shape=False,
         skip_img_without_anno=True),
     dict(type='DefaultFormatBundle'),
-    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels']))
+    dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
 
 test_pipeline = [
