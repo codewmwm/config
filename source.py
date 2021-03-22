@@ -247,7 +247,7 @@ data = dict(
         )
 )
 evaluation = dict(interval=1, metric='bbox')###  interval
-optimizer = dict(type='SGD', lr=0.00125*16, momentum=0.9, weight_decay=0.0001)###  lr
+optimizer = dict(type='SGD', lr=0.04, momentum=0.9, weight_decay=0.0001)###  lr
 optimizer_config = dict(grad_clip=None)
 lr_config = dict(
     policy='step',
